@@ -78,7 +78,7 @@ export function icsDataUri(event: UnifiedEvent): string {
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Free For Charity//Events//EN',
+    'PRODID:-//Oak Grove Community Closet//Events//EN',
     'BEGIN:VEVENT',
     `UID:${escapeIcsId(event.id)}`,
     `DTSTAMP:${toCompactUtc(new Date().toISOString())}`,

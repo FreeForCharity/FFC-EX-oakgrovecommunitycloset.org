@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema'
 import { pageMetadata } from '@/lib/page-metadata'
+import { siteConfig } from '@/lib/site.config'
 
 const PAGE_NAME = 'Privacy Policy'
 const CANONICAL_PATH = '/privacy-policy'
@@ -10,7 +11,7 @@ const CANONICAL_PATH = '/privacy-policy'
 // per-page OG/Twitter handling is documented in src/lib/page-metadata.ts.
 export const metadata: Metadata = pageMetadata({
   title: PAGE_NAME,
-  description: 'Privacy Policy for Free For Charity website',
+  description: `Privacy Policy for ${siteConfig.name} website`,
   canonical: CANONICAL_PATH,
 })
 
@@ -33,10 +34,10 @@ export default function PrivacyPolicy() {
             <strong>1. Introduction</strong>
           </h2>
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            At Free for Charity, accessible from https://freeforcharity.org, your privacy is one of
-            our primary concerns. This Privacy Policy document contains types of information we
-            collect and record, and how we use it. By using our website, you hereby consent to our
-            Privacy Policy and agree to its terms.
+            At {siteConfig.name}, accessible from {siteConfig.url}, your privacy is one of our
+            primary concerns. This Privacy Policy document contains types of information we collect
+            and record, and how we use it. By using our website, you hereby consent to our Privacy
+            Policy and agree to its terms.
           </p>
 
           {/* Section 2 */}
@@ -44,7 +45,7 @@ export default function PrivacyPolicy() {
             <strong>2. Who We Are</strong>
           </h2>
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            Our website address is: https://freeforcharity.org
+            Our website address is: {siteConfig.url}
           </p>
 
           {/* Section 3 */}
@@ -133,37 +134,19 @@ export default function PrivacyPolicy() {
           </ul>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500] mt-[1em]">
-            <strong>3.4. Microsoft Forms - Application Forms</strong>
+            <strong>3.4. Forms & Application Process</strong>
           </p>
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            We use Microsoft Forms (forms.office.com) for our charity application process. When you
-            submit an application through our website:
+            When you submit forms or inquiries through our website:
           </p>
           <ul className="list-inside list-disc space-y-[4px] pb-[1em]">
             <li className="text-[14px] text-[#666] leading-[24px] font-[500]">
-              <strong>Data Collected:</strong> Information you provide in the application form
-              (name, email, organization details, etc.)
+              <strong>Data Collected:</strong> Information you provide in the form (name, email,
+              message, etc.)
             </li>
             <li className="text-[14px] text-[#666] leading-[24px] font-[500]">
-              <strong>Third-Party Processing:</strong> Microsoft Forms is a service provided by
-              Microsoft Corporation. Your form submissions are processed according to
-              Microsoft&apos;s privacy policies.
-            </li>
-            <li className="text-[14px] text-[#666] leading-[24px] font-[500]">
-              <strong>Additional Third-Party Services:</strong> Microsoft Forms may use additional
-              services (including HubSpot) for form analytics and feedback collection. These are
-              controlled by Microsoft, not Free For Charity.
-            </li>
-            <li className="text-[14px] text-[#666] leading-[24px] font-[500]">
-              <strong>Privacy Policy:</strong> Review Microsoft&apos;s privacy practices at{' '}
-              <a
-                href="https://privacy.microsoft.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#0062CC] underline"
-              >
-                https://privacy.microsoft.com/
-              </a>
+              <strong>Third-Party Processing:</strong> Submissions are processed to fulfill your
+              requests.
             </li>
           </ul>
 
@@ -193,10 +176,9 @@ export default function PrivacyPolicy() {
             Events Aggregation
           </h3>
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            The &quot;Upcoming Events&quot; section aggregates events from our Google Calendar,
-            Microsoft 365 calendar, and Facebook page. These sources are fetched server-side at
-            build time (every six hours via an automated workflow) and stored as a static JSON
-            snapshot in our public source repository. As a result:
+            The &quot;Upcoming Events&quot; section aggregates events from configured calendars.
+            These sources are fetched server-side at build time and stored as a static JSON
+            snapshot. As a result:
           </p>
           <ul className="list-inside list-disc space-y-[4px] pb-[1em]">
             <li className="text-[14px] text-[#666] leading-[24px] font-[500]">
@@ -204,18 +186,12 @@ export default function PrivacyPolicy() {
               when you view our site.
             </li>
             <li className="text-[14px] text-[#666] leading-[24px] font-[500]">
-              We never send your IP address, browser fingerprint, or any other identifier to Google,
-              Microsoft, or Meta as part of displaying events.
+              We never send your IP address, browser fingerprint, or any other identifier to third
+              parties as part of displaying events.
             </li>
             <li className="text-[14px] text-[#666] leading-[24px] font-[500]">
-              When you click &quot;View on Facebook/Google/Microsoft&quot; or &quot;Add to
-              calendar&quot;, you leave our site and the destination&apos;s own privacy policy
-              applies.
-            </li>
-            <li className="text-[14px] text-[#666] leading-[24px] font-[500]">
-              If an event is deleted at the source, it is removed from our snapshot at the next
-              scheduled refresh (up to six hours). For immediate deletion of personal data shown on
-              an event, contact us at the address below.
+              When you click external calendar links, you leave our site and the destination&apos;s
+              own privacy policy applies.
             </li>
           </ul>
 
@@ -333,9 +309,11 @@ export default function PrivacyPolicy() {
               on your consent to process your personal information.
             </li>
           </ul>
-          <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            To exercise these rights, please contact us at 520-222-8104.
-          </p>
+          {siteConfig.contactEmail && (
+            <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
+              To exercise these rights, please contact us at {siteConfig.contactEmail}.
+            </p>
+          )}
 
           {/* Section 8 */}
           <h2 className="text-[26px] leading-[26px] font-[700] text-[#333] mb-[10px]">
@@ -373,12 +351,10 @@ export default function PrivacyPolicy() {
             <strong>The regional model in plain language.</strong> We use Google Consent Mode.
             Whether the permissive or the opt-in default applies is determined by Google from your
             IP address at the time of your visit (IP geolocation is approximate). In the EEA, the
-            UK, and Switzerland, analytics runs cookie-free until you accept. (Switzerland is
-            included because Google&apos;s consent defaults cover it; the data of visitors in
-            Switzerland is protected by Switzerland&apos;s Federal Act on Data Protection (FADP)
-            rather than the GDPR.) Everywhere else, including the United States, analytics cookies
-            are set from your first pageview — and any visitor can turn them off at any time via the
-            Cookie Preferences link in the footer. See our{' '}
+            UK, and Switzerland, analytics runs cookie-free until you accept. Everywhere else,
+            including the United States, analytics cookies are set from your first pageview — and
+            any visitor can turn them off at any time via the Cookie Preferences link in the footer.
+            See our{' '}
             <Link href="/cookie-policy" className="text-[#0062CC] underline">
               Cookie Policy
             </Link>{' '}
@@ -391,14 +367,10 @@ export default function PrivacyPolicy() {
             given, at any time, without affecting the lawfulness of processing before withdrawal.
           </p>
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            <strong>Exercising your rights and complaints.</strong> Contact us at{' '}
-            <a href="mailto:clarkemoyer@freeforcharity.org" className="text-[#0062CC] underline">
-              clarkemoyer@freeforcharity.org
-            </a>{' '}
-            or 520-222-8104 to exercise any of these rights; we will respond within the time limits
-            the GDPR sets. You also have the right to lodge a complaint with your national data
-            protection supervisory authority (in the UK, the Information Commissioner&apos;s
-            Office).
+            <strong>Exercising your rights and complaints.</strong> Contact us via our site details
+            to exercise any of these rights; we will respond within the time limits the GDPR sets.
+            You also have the right to lodge a complaint with your national data protection
+            supervisory authority.
           </p>
 
           {/* Section 9 */}
@@ -411,7 +383,7 @@ export default function PrivacyPolicy() {
             supplements the rest of this policy.
           </p>
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            <strong>We do not sell or share your personal information.</strong> Free For Charity
+            <strong>We do not sell or share your personal information.</strong> {siteConfig.name}{' '}
             does not sell personal information, and does not share it for cross-context behavioral
             advertising, as those terms are defined by California law — and has not done so in the
             preceding 12 months. We do not knowingly collect or sell the personal information of
@@ -438,13 +410,10 @@ export default function PrivacyPolicy() {
             Pixel) scripts never load unless you explicitly opt in.
           </p>
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            <strong>Exercising your rights.</strong> Submit a request to{' '}
-            <a href="mailto:clarkemoyer@freeforcharity.org" className="text-[#0062CC] underline">
-              clarkemoyer@freeforcharity.org
-            </a>{' '}
-            or 520-222-8104. We will verify your request using information associated with your
-            interactions with us, and you may use an authorized agent to submit a request on your
-            behalf. We will respond within the timeframes California law requires.
+            <strong>Exercising your rights.</strong> Submit a request via our contact channels. We
+            will verify your request using information associated with your interactions with us,
+            and you may use an authorized agent to submit a request on your behalf. We will respond
+            within the timeframes California law requires.
           </p>
 
           {/* Section 10 */}
@@ -549,39 +518,9 @@ export default function PrivacyPolicy() {
             <strong>15. Contact Us</strong>
           </h2>
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            If you have any questions about this Privacy Policy, please contact us:
+            If you have any questions about this Privacy Policy, please contact us through our
+            website.
           </p>
-          <ul className="list-inside list-disc space-y-[4px] pb-[1em]">
-            <li className="text-[14px] text-[#666] leading-[24px] font-[500]">
-              <strong>Email:</strong>{' '}
-              <a href="mailto:clarkemoyer@freeforcharity.org" className="text-[#0062CC] underline">
-                clarkemoyer@freeforcharity.org
-              </a>{' '}
-              520-222-8104
-            </li>
-          </ul>
-
-          {/* Section 16 */}
-          <h2 className="text-[26px] leading-[26px] font-[700] text-[#333] mb-[10px]">
-            <strong>16. Additional Information</strong>
-          </h2>
-
-          <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            <strong>16.1. Data Protection Officer</strong>
-          </p>
-          <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            We have appointed a Data Protection Officer (DPO) responsible for overseeing questions
-            in relation to this Privacy Policy:
-          </p>
-          <ul className="list-inside list-disc space-y-[4px] pb-[1em]">
-            <li className="text-[14px] text-[#666] leading-[24px] font-[500]">
-              <strong>Contact DPO:</strong> Clarke Moyer{' '}
-              <a href="mailto:clarkemoyer@freeforcharity.org" className="text-[#0062CC] underline">
-                clarkemoyer@freeforcharity.org
-              </a>{' '}
-              520-222-8104
-            </li>
-          </ul>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[700] mt-[1.5em]">
             Your trust matters to us, and we are committed to protecting your personal information

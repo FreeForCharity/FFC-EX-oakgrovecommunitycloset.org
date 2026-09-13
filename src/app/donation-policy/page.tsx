@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema'
 import { pageMetadata } from '@/lib/page-metadata'
+import { siteConfig } from '@/lib/site.config'
 
 const PAGE_NAME = 'Donation Policy'
 const CANONICAL_PATH = '/donation-policy'
@@ -9,7 +10,7 @@ const CANONICAL_PATH = '/donation-policy'
 // per-page OG/Twitter handling is documented in src/lib/page-metadata.ts.
 export const metadata: Metadata = pageMetadata({
   title: PAGE_NAME,
-  description: 'Donation Policy for Free For Charity website',
+  description: `Donation Policy for ${siteConfig.name} website`,
   canonical: CANONICAL_PATH,
 })
 
@@ -31,21 +32,21 @@ export default function DonationPolicy() {
             Tax Deductibility
           </h2>
           <p>
-            Free For Charity is a qualified 501(c)(3) nonprofit organization (EIN: 46-2471893).
-            Donations are tax-deductible to the full extent allowed by law.
+            {siteConfig.name} is a qualified 501(c)(3) nonprofit organization (EIN: {siteConfig.ein}
+            ). Donations are tax-deductible to the full extent allowed by law.
           </p>
 
           <h2 className="font-[var(--font-faustina)] text-[32px] leading-[40px] mt-8 mb-4">
             Use of Donations
           </h2>
           <p>
-            Donations support our mission to reduce costs and increase revenues for nonprofits by
-            providing:
+            Donations support our mission to provide free clothing and shoes throughout the Northern
+            Neck by:
           </p>
           <ul>
-            <li>Free domain registration and hosting services</li>
-            <li>Technology consultation and support</li>
-            <li>Volunteer coordination and training</li>
+            <li>Procuring and managing community closet inventory</li>
+            <li>Providing clothing and shoes free of charge to individuals and families</li>
+            <li>Volunteer outreach and facility maintenance</li>
             <li>Administrative costs necessary to operate our programs</li>
           </ul>
 
@@ -53,8 +54,8 @@ export default function DonationPolicy() {
             Donation Processing
           </h2>
           <p>
-            Donations are processed securely through our payment partners. You will receive a
-            receipt for tax purposes via email after your donation is processed.
+            Donations are processed securely. You will receive a receipt for tax purposes via email
+            after your donation is processed.
           </p>
 
           <h2 className="font-[var(--font-faustina)] text-[32px] leading-[40px] mt-8 mb-4">
@@ -76,15 +77,21 @@ export default function DonationPolicy() {
           <h2 className="font-[var(--font-faustina)] text-[32px] leading-[40px] mt-8 mb-4">
             Contact Us
           </h2>
-          <p>For questions about donations or this policy, please contact us at:</p>
-          <p>
-            Email:{' '}
-            <a href="mailto:clarkemoyer@freeforcharity.org" className="text-primary underline">
-              clarkemoyer@freeforcharity.org
-            </a>
-            <br />
-            Phone: (520) 222-8104
-          </p>
+          <p>For questions about donations or this policy, please contact us:</p>
+          {(siteConfig.contactEmail || siteConfig.phone.display) && (
+            <p>
+              {siteConfig.contactEmail && (
+                <>
+                  Email:{' '}
+                  <a href={`mailto:${siteConfig.contactEmail}`} className="text-primary underline">
+                    {siteConfig.contactEmail}
+                  </a>
+                  <br />
+                </>
+              )}
+              {siteConfig.phone.display && <>Phone: {siteConfig.phone.display}</>}
+            </p>
+          )}
         </div>
       </div>
     </div>

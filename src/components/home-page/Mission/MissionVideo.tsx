@@ -3,8 +3,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { assetPath } from '@/lib/assetPath'
+import { siteConfig } from '@/lib/site.config'
 
-const VIDEO_TITLE = "Learn about Free For Charity's mission to help nonprofits reduce costs"
+const VIDEO_TITLE = `Learn about ${siteConfig.name}'s mission`
 
 /**
  * Click-to-play facade for the mission video. The multi-megabyte mp4 is not
@@ -40,7 +41,7 @@ const MissionVideo = () => {
             playsInline
             preload="metadata"
             poster={assetPath('/videos/mission-video-poster.webp')}
-            aria-label="Free For Charity mission video"
+            aria-label={`${siteConfig.name} mission video`}
             title={VIDEO_TITLE}
           >
             <source src={assetPath('/videos/mission-video.mp4')} type="video/mp4" />
@@ -51,7 +52,7 @@ const MissionVideo = () => {
           type="button"
           onClick={() => setActivated(true)}
           className="mission-video-facade group relative block w-full max-w-[800px] cursor-pointer overflow-hidden rounded-lg shadow-lg"
-          aria-label="Play the Free For Charity mission video"
+          aria-label={`Play the ${siteConfig.name} mission video`}
           title={VIDEO_TITLE}
         >
           <Image
@@ -81,7 +82,7 @@ const MissionVideo = () => {
       autoPlay
       playsInline
       poster={assetPath('/videos/mission-video-poster.webp')}
-      aria-label="Free For Charity mission video"
+      aria-label={`${siteConfig.name} mission video`}
       title={VIDEO_TITLE}
     >
       <source src={assetPath('/videos/mission-video.mp4')} type="video/mp4" />

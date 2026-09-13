@@ -2,15 +2,16 @@ import React from 'react'
 import type { Metadata } from 'next'
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema'
 import { pageMetadata } from '@/lib/page-metadata'
+import { siteConfig } from '@/lib/site.config'
 
-const PAGE_NAME = 'Free For Charity Donation Policy'
+const PAGE_NAME = 'Donation Policy'
 const CANONICAL_PATH = '/free-for-charity-donation-policy'
 
 // Bare page name as title (the root layout template appends the brand);
 // per-page OG/Twitter handling is documented in src/lib/page-metadata.ts.
 export const metadata: Metadata = pageMetadata({
   title: PAGE_NAME,
-  description: 'Free For Charity Donation Policy - Learn about our donation policies',
+  description: `Donation Policy for ${siteConfig.name}`,
   canonical: CANONICAL_PATH,
 })
 
@@ -21,11 +22,11 @@ const index = () => {
       <div className="py-[21px] w-[90%] md:w-[80%] mx-auto max-w-[1080px]">
         <div className="aria-font">
           <h1 className="text-[30px] text-[#333] pb-[10px] leading-[30px] font-[500]">
-            Free For Charity Donation Policy
+            {siteConfig.name} Donation Policy
           </h1>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            Legal Donation Policy for Free For Charity
+            Legal Donation Policy for {siteConfig.name}
           </p>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
@@ -37,11 +38,11 @@ const index = () => {
           </h2>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            Free For Charity, a US 501(c)(3) non-profit organization, is dedicated to improving our
-            support to other charitable entities through our various programs and initiatives. This
-            donation policy outlines the guidelines and principles governing the acceptance,
-            management, and acknowledgment of donations to ensure transparency, accountability, and
-            compliance with applicable laws and regulations.
+            {siteConfig.name}, a US 501(c)(3) non-profit organization, is dedicated to improving our
+            support to our community through our various programs and initiatives. This donation
+            policy outlines the guidelines and principles governing the acceptance, management, and
+            acknowledgment of donations to ensure transparency, accountability, and compliance with
+            applicable laws and regulations.
           </p>
 
           <h2 className="text-[30px] text-[#333] pb-[10px] leading-[30px] font-[500]">
@@ -50,12 +51,11 @@ const index = () => {
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
             The purpose of this policy is to provide clarity and guidance on the types of donations
-            Free For Charity will accept, the process for evaluating and accepting donations, and
+            {siteConfig.name} will accept, the process for evaluating and accepting donations, and
             the responsibilities of both the donor and the organization. This policy applies to all
             forms of donations, including cash, securities, real estate, personal property, and
-            in-kind contributions. By adhering to this policy, Free For Charity aims to maintain the
-            trust and confidence of our donors while advancing our mission to improve the services
-            for our supported nonprofits.
+            in-kind contributions. By adhering to this policy, {siteConfig.name} aims to maintain
+            the trust and confidence of our donors while advancing our mission.
           </p>
 
           <h2 className="text-[30px] text-[#333] pb-[10px] leading-[30px] font-[500]">
@@ -63,7 +63,7 @@ const index = () => {
           </h2>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            Free For Charity accepts a wide range of donations, subject to the following criteria:
+            {siteConfig.name} accepts a wide range of donations, subject to the following criteria:
           </p>
 
           <h3 className="text-[26px] text-[#333] pb-[10px] leading-[26px] font-[500]">
@@ -82,7 +82,7 @@ const index = () => {
           </h3>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            Free For Charity accepts publicly traded securities and other forms of marketable
+            {siteConfig.name} accepts publicly traded securities and other forms of marketable
             securities. Donations of securities will be liquidated promptly upon receipt unless
             otherwise directed by the Board of Directors. This ensures that the value of the
             donation can be utilized effectively to support our mission. Donors are encouraged to
@@ -108,11 +108,10 @@ const index = () => {
           </h3>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            Tangible personal property, such as art, antiques, and vehicles, may be accepted if
-            deemed useful to the organization’s mission or if the property can be sold for financial
-            gain. Donors are encouraged to provide a detailed description and valuation of the
-            property to facilitate the acceptance process. Personal property donations can enhance
-            our fundraising efforts and provide unique opportunities for donor engagement.
+            Tangible personal property, such as clothing, shoes, art, antiques, and vehicles, may be
+            accepted if deemed useful to the organization’s mission or if the property can be sold
+            or distributed for community benefit. Donors are encouraged to provide a detailed
+            description and valuation of the property to facilitate the acceptance process.
           </p>
 
           <h3 className="text-[26px] text-[#333] pb-[10px] leading-[26px] font-[500]">
@@ -124,8 +123,6 @@ const index = () => {
             needs of the organization and align with our mission. Donors are encouraged to contact
             us in advance to discuss the specifics of their in-kind donation. These contributions
             can help reduce operational costs and provide essential resources for our programs.
-            Examples of in-kind donations include office supplies, technology, professional
-            services, and event sponsorships.
           </p>
 
           <h2 className="text-[30px] text-[#333] pb-[10px] leading-[30px] font-[500]">
@@ -134,7 +131,7 @@ const index = () => {
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
             Donors are responsible for ensuring that their contributions comply with all applicable
-            laws and regulations. Free For Charity recommends that donors consult with their
+            laws and regulations. {siteConfig.name} recommends that donors consult with their
             financial advisors or legal counsel to understand the potential tax implications and
             legal requirements associated with their donations. It is crucial for donors to provide
             accurate and complete information about their contributions to facilitate proper
@@ -146,8 +143,8 @@ const index = () => {
           </h2>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            All donations are subject to a review process to ensure they align with Free For
-            Charity’s mission and values. The evaluation process includes:
+            All donations are subject to a review process to ensure they align with{' '}
+            {siteConfig.name}’s mission and values. The evaluation process includes:
           </p>
 
           <h3 className="text-[26px] text-[#333] pb-[10px] leading-[26px] font-[500]">
@@ -155,9 +152,9 @@ const index = () => {
           </h3>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            The Executive Director or designated staff member will conduct an initial review of the
-            donation offer, considering the type of donation, its value, and its potential impact on
-            the organization. This initial assessment helps determine whether the donation meets our
+            Designated staff or board members will conduct an initial review of the donation offer,
+            considering the type of donation, its value, and its potential impact on the
+            organization. This initial assessment helps determine whether the donation meets our
             acceptance criteria and aligns with our strategic goals.
           </p>
 
@@ -166,9 +163,8 @@ const index = () => {
           </h3>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            For donations of real estate, securities, and personal property, Free For Charity will
-            perform due diligence to assess any potential liabilities or obligations. This may
-            include environmental assessments, legal reviews, and market analyses. Due diligence
+            For donations of real estate, securities, and personal property, {siteConfig.name} will
+            perform due diligence to assess any potential liabilities or obligations. Due diligence
             ensures that the organization fully understands the implications of accepting the
             donation and can make informed decisions in the best interest of our mission.
           </p>
@@ -180,9 +176,7 @@ const index = () => {
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
             Donations that require significant resources to manage or present potential risks will
             be presented to the Board of Directors for approval. The Board has the authority to
-            accept or decline donations based on the best interests of the organization. This
-            approval process ensures that all major donations receive appropriate oversight and
-            consideration.
+            accept or decline donations based on the best interests of the organization.
           </p>
 
           <h2 className="text-[30px] text-[#333] pb-[10px] leading-[30px] font-[500]">
@@ -190,7 +184,7 @@ const index = () => {
           </h2>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            Free For Charity is committed to recognizing and appreciating the generosity of our
+            {siteConfig.name} is committed to recognizing and appreciating the generosity of our
             donors. Upon receipt of a donation, donors will receive:
           </p>
 
@@ -209,11 +203,9 @@ const index = () => {
           </h3>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            With the donor’s consent, Free For Charity will recognize significant contributions
-            through various channels, including our website, annual reports, newsletters, and
-            events. Donors may also choose to remain anonymous if they prefer. Public recognition
-            helps celebrate the impact of our donors’ generosity and inspires others to contribute
-            to our cause.
+            With the donor’s consent, {siteConfig.name} will recognize significant contributions
+            through various channels, including our website and social media. Donors may also choose
+            to remain anonymous if they prefer.
           </p>
 
           <h2 className="text-[30px] text-[#333] pb-[10px] leading-[30px] font-[500]">
@@ -221,7 +213,7 @@ const index = () => {
           </h2>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            Free For Charity respects the privacy and confidentiality of our donors. Personal
+            {siteConfig.name} respects the privacy and confidentiality of our donors. Personal
             information collected during the donation process will be used solely for the purpose of
             processing and acknowledging the donation and will not be shared with third parties
             without the donor’s consent. Our commitment to donor privacy includes:
@@ -241,11 +233,9 @@ const index = () => {
           </h2>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            Free For Charity is committed to maintaining the highest ethical standards. All
+            {siteConfig.name} is committed to maintaining the highest ethical standards. All
             individuals involved in the donation process are required to disclose any potential
             conflicts of interest and recuse themselves from decisions where a conflict may exist.
-            This policy helps prevent undue influence and ensures that all decisions are made in the
-            best interest of the organization and our beneficiaries.
           </p>
 
           <h2 className="text-[30px] text-[#333] pb-[10px] leading-[30px] font-[500]">
@@ -255,8 +245,7 @@ const index = () => {
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
             This donation policy will be reviewed as needed by the Board of Directors to ensure it
             remains current and effective. Any changes or updates to the policy will be communicated
-            to donors and made available on our website. Regular review and updates help us adapt to
-            evolving legal requirements and best practices in the non-profit sector.
+            to donors and made available on our website.
           </p>
 
           <h2 className="text-[30px] text-[#333] pb-[10px] leading-[30px] font-[500]">
@@ -264,20 +253,27 @@ const index = () => {
           </h2>
 
           <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            Free For Charity deeply values the support of our donors and is committed to ensuring
+            {siteConfig.name} deeply values the support of our donors and is committed to ensuring
             that their contributions make a meaningful impact. By adhering to this donation policy,
             we aim to maintain the trust and confidence of our donors while advancing our mission to
-            improve the quality of life for those in need. We are grateful for the generosity of our
-            donors and look forward to working together to achieve our goals.
+            improve the quality of life for those in need.
           </p>
 
-          <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
-            For any questions or further information about our donation policy, please contact us at{' '}
-            <a href="mailto:clarkemoyer@freeforcharity.org" className="text-[#2ea3f2] break-words">
-              clarkemoyer@freeforcharity.org
-            </a>{' '}
-            520-222-8104
-          </p>
+          {(siteConfig.contactEmail || siteConfig.phone.display) && (
+            <p className="text-[14px] text-[#666] pb-[10px] leading-[24px] font-[500]">
+              For any questions or further information about our donation policy, please contact us
+              at{' '}
+              {siteConfig.contactEmail && (
+                <a
+                  href={`mailto:${siteConfig.contactEmail}`}
+                  className="text-[#2ea3f2] break-words"
+                >
+                  {siteConfig.contactEmail}
+                </a>
+              )}{' '}
+              {siteConfig.phone.display}
+            </p>
+          )}
         </div>
       </div>
     </div>

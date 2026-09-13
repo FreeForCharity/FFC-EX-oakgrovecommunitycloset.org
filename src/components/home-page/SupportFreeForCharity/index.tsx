@@ -33,7 +33,7 @@ const Index = () => {
     <div id="donate">
       <div className="w-[90%] mx-auto py-[27px] mb-[60px] px-[20px] max-w-[1280px]">
         <h2 className="font-[400] text-[40px] lg:text-[48px] leading-[100%] tracking-[0] text-center mx-auto mb-[60px] faustina-font">
-          Support Free For Charity
+          Support {siteConfig.name}
         </h2>
 
         <div className="flex items-center flex-col lg:flex-row gap-[40px] lg:gap-[20px]">

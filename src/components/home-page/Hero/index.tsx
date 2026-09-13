@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { assetPath } from '@/lib/assetPath'
+import { siteConfig } from '@/lib/site.config'
 
 const CharityHeroBackground = () => {
   return (
@@ -26,7 +27,7 @@ const CharityHeroBackground = () => {
       <div className="hero-container flex flex-col lg:flex-row gap-[40px] lg:gap-[0px] items-center justify-between relative z-10 text-white pt-[130px] w-[90%] mx-auto max-w-[1280px] lg:px-[20px]">
         <div className="w-full lg:w-[565px]">
           <h1 className="text-[50px] lg:text-[60px] font-[500] text-[#FFFFFF] leading-[120%] mb-[20px] faustina-font">
-            Welcome to <br /> Free For Charity
+            Welcome to <br /> {siteConfig.name}
           </h1>
           <p className="text-[24px] font-[400] leading-[120%] text-[#FFFFFF] mb-[20px] lato-font">
             Connecting Students, Professionals, & Businesses with Charities in Need
