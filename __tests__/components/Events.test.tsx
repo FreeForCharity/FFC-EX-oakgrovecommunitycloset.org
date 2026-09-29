@@ -51,8 +51,19 @@ jest.mock(
 )
 
 import Events from '../../src/components/home-page/Events'
+import { siteConfig } from '../../src/lib/site.config'
 
 describe('Events component', () => {
+  // This site turns the section off (sections.showEvents = false); exercise
+  // the component itself with the flag on.
+  const originalShowEvents = siteConfig.sections.showEvents
+  beforeAll(() => {
+    siteConfig.sections.showEvents = true
+  })
+  afterAll(() => {
+    siteConfig.sections.showEvents = originalShowEvents
+  })
+
   // The visibility predicate is client-safe and reads only the derived
   // booleans next.config.ts inlines; the snapshot mock above is invisible
   // to it, so mark the snapshot as populated the same way a real build

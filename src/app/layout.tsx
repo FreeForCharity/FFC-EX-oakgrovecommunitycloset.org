@@ -105,14 +105,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
 
-        {/* Preload critical LCP image */}
-        <link
-          rel="preload"
-          as="image"
-          href={assetPath('/Images/figma-hero-img.webp')}
-          fetchPriority="high"
-        />
-
         {/* Google Consent Mode v2 defaults. MUST execute before any Google
             tag loads, which is why it is an inline <head> script placed
             above the GoogleTagManager component rather than a next/script:

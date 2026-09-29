@@ -25,6 +25,39 @@ export type SiteAddress = {
   mapUrl: string
 }
 
+/**
+ * A footer-standard field the charity has not supplied yet. Listing a field in
+ * `siteConfig.pending` renders a visible "awaiting information" placeholder in
+ * its place (plain text, never a link), so a gap in the FFC footer standard is
+ * a call to action on the page rather than a silent omission. The field's own
+ * value must stay EMPTY while it is pending, so no placeholder or borrowed
+ * value (e.g. the template's own FFC details) can ship behind it.
+ *
+ * An empty value that is NOT listed here keeps its plain meaning: the charity
+ * has none (e.g. no public phone). `taxStatusLabel` is deliberately not a
+ * pending field: it is a legal claim, and '' means "make no claim".
+ *
+ * What "empty" means per field: `email` → `contactEmail`; `phone` → both
+ * `phone.display` and `phone.tel`; `address` → `addresses: []`; `ein` → `ein`;
+ * `guidestar` → both `guidestar` URLs; `social` → every `social[].href`;
+ * `team` → no member in src/data/team/*.json has a name; `donationUrl` →
+ * `integrations.zeffyDonationUrl`; `volunteerUrl` → `integrations.idealistUrl`
+ * (this template keeps its giving / volunteering URLs under `integrations`).
+ */
+export type PendingField =
+  | 'email'
+  | 'phone'
+  | 'address'
+  | 'ein'
+  | 'guidestar'
+  | 'social'
+  | 'team'
+  | 'donationUrl'
+  | 'volunteerUrl'
+
+/** Visible text shown in place of a pending field. */
+export const PENDING_TEXT = 'Awaiting information from the charity'
+
 export type SiteConfig = {
   /** Display name of the charity (used in titles, OG/Twitter cards). */
   name: string
@@ -65,7 +98,7 @@ export type SiteConfig = {
   vulnerabilityDisclosurePath: string
   /** Social links displayed in the footer. */
   social: readonly SiteSocialLink[]
-  /** IRS Employer Identification Number (tax ID), e.g. '54-0846335'. */
+  /** IRS Employer Identification Number (tax ID), e.g. '12-3456789'. */
   ein: string
   /**
    * Year (or ISO date) the organization was founded, e.g. '2014'.
@@ -89,7 +122,13 @@ export type SiteConfig = {
   phone: { display: string; tel: string }
   /** Physical office addresses shown in the footer contact column. */
   addresses: readonly SiteAddress[]
-  /** GuideStar / Candid transparency profile links shown in the footer. */
+  /**
+   * GuideStar / Candid transparency profile links shown in the footer. Each is
+   * a transparency claim, so the seal renders only when `profileUrl` is set and
+   * the direct-link button only when `directProfileUrl` is set. Leave both ''
+   * until the charity has its own Candid profile (never copy another
+   * organization's), and list 'guidestar' in `pending` if one is coming.
+   */
   guidestar: { profileUrl: string; directProfileUrl: string }
   /**
    * Permanent attribution to the supporting organization (FFC). Drives the
@@ -106,6 +145,15 @@ export type SiteConfig = {
    * nonprofit. Omit for a standalone charity (the footer clause is hidden).
    */
   parentOrg?: { name: string; url: string; hubUrl: string }
+  /**
+   * Footer-standard fields still awaiting the charity. Each listed field keeps
+   * an EMPTY value and renders a visible plain-text placeholder
+   * (`PENDING_TEXT`) in its slot, never a link. An empty value NOT listed here
+   * means "the charity has none". `taxStatusLabel` is deliberately not
+   * pending-able: it is a legal claim, so '' means "make no claim". See
+   * `PendingField`. Omit (or leave empty) when nothing is pending.
+   */
+  pending?: readonly PendingField[]
   /**
    * Label appended after the org name in the footer copyright line to describe
    * tax status, e.g. 'a US 501c3 Non Profit' or 'a pre-501(c)(3) nonprofit'.
@@ -156,6 +204,14 @@ export type SiteConfig = {
 }
 
 export const siteConfig: SiteConfig = {
+  // Oak Grove Community Closet is a clothing-and-shoes outreach listed as a
+  // mission of Oak Grove Baptist Church (oakgrove.family/missions), so the
+  // church is recorded as its parent organization below. Every footer-standard
+  // detail the closet has not published itself is EMPTY and listed in
+  // `pending` (a visible "awaiting information" placeholder), never Free For
+  // Charity's. The EIN and Candid profile on the closet's application
+  // (54-0846335) are the church's; they stay pending until the closet confirms
+  // it operates under the church's EIN, and no 501(c)(3) claim is made.
   name: 'Oak Grove Community Closet',
   tagline: 'Free Clothing & Shoes throughout the Northern Neck',
   description:
@@ -178,13 +234,9 @@ export const siteConfig: SiteConfig = {
   vulnerabilityDisclosurePath: '/vulnerability-disclosure-policy',
   social: [
     { label: 'Facebook', href: 'https://www.facebook.com/oakgrovecommunitycloset' },
-    {
-      label: 'LinkedIn',
-      href: 'https://www.linkedin.com/company/oak-grove-community-closet/about/?viewAsMember=true',
-    },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/company/oak-grove-community-closet/' },
   ],
-  ein: '54-0846335',
-  nonprofitStatus: 'https://schema.org/Nonprofit501c3',
+  ein: '',
   phone: { display: '', tel: '' },
   addresses: [
     {
@@ -194,7 +246,7 @@ export const siteConfig: SiteConfig = {
     },
   ],
   guidestar: {
-    profileUrl: 'https://www.guidestar.org/profile/54-0846335',
+    profileUrl: '',
     directProfileUrl: '',
   },
   supportedBy: {
@@ -202,7 +254,17 @@ export const siteConfig: SiteConfig = {
     url: 'https://freeforcharity.org',
     hubUrl: 'https://freeforcharity.org/hub/',
   },
-  taxStatusLabel: 'a US 501c3 Non Profit',
+  // The church lists the closet among its missions (oakgrove.family/missions).
+  // The church has no separate charity hub, and the shared schema requires a
+  // non-empty hubUrl (nothing renders it), so it repeats the church's site.
+  parentOrg: {
+    name: 'Oak Grove Baptist Church',
+    url: 'https://oakgrove.family',
+    hubUrl: 'https://oakgrove.family',
+  },
+  // No 501(c)(3) claim: IRS recognition belongs to the church, and the
+  // closet's own status is unconfirmed.
+  taxStatusLabel: '',
   sections: {
     showEndowment: false,
     showPrograms: false,
@@ -214,6 +276,9 @@ export const siteConfig: SiteConfig = {
     eventsFacebookPageUrl: 'https://www.facebook.com/oakgrovecommunitycloset',
     microsoftFormUrl: '',
   },
+  // Footer-standard fields still awaiting the charity; each renders a visible
+  // 'awaiting information' placeholder until it is filled in.
+  pending: ['email', 'phone', 'ein', 'guidestar', 'team', 'donationUrl', 'volunteerUrl'],
 }
 
 /**
@@ -251,4 +316,9 @@ export function twitterSite(): string | undefined {
 /** Returns the OG/Twitter card description, falling back to the longer page description. */
 export function cardDescription(): string {
   return siteConfig.shortDescription.trim() || siteConfig.description
+}
+
+/** True when `field` is listed in `siteConfig.pending`. */
+export function isPending(field: PendingField): boolean {
+  return siteConfig.pending?.includes(field) ?? false
 }

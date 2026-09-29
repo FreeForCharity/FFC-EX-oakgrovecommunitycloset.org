@@ -11,8 +11,19 @@ jest.mock(
 )
 
 import Events from '../../src/components/home-page/Events'
+import { siteConfig } from '../../src/lib/site.config'
 
 describe('Events empty state', () => {
+  // This site turns the section off (sections.showEvents = false); exercise
+  // the component itself with the flag on.
+  const originalShowEvents = siteConfig.sections.showEvents
+  beforeAll(() => {
+    siteConfig.sections.showEvents = true
+  })
+  afterAll(() => {
+    siteConfig.sections.showEvents = originalShowEvents
+  })
+
   // With NO sources configured and an empty snapshot the whole section
   // self-hides (covered in section-visibility.test.tsx). The empty state is
   // the "sources configured, zero upcoming events" path, so mark a source as

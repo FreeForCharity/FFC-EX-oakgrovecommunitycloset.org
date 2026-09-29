@@ -2,13 +2,11 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { FiMenu } from 'react-icons/fi'
 import { LiaSearchSolid } from 'react-icons/lia'
 import { RxCross2 } from 'react-icons/rx'
-import { assetPath } from '@/lib/assetPath'
 import { siteConfig } from '@/lib/site.config'
-import { configuredTeam } from '@/data/team'
+import { faqSectionVisible, teamSectionVisible } from '@/lib/section-visibility'
 
 interface MenuItem {
   label: string
@@ -42,13 +40,14 @@ const Header: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>('')
 
   // Drop nav entries whose section self-hides so we never link to a missing
-  // #anchor (Programs -> sections.showPrograms; Team -> configuredTeam, i.e. at
-  // least one member with a populated name — matches the Team section's guard).
+  // #anchor (Programs -> sections.showPrograms; FAQ / Team ->
+  // src/lib/section-visibility.ts, the same guards those sections use).
   // Built directly each render so it reflects the current config; the scroll-spy
   // uses the stable module-level SCROLL_SPY_SECTIONS instead.
   const menuItems: MenuItem[] = ALL_MENU_ITEMS.filter((item) => {
     if (item.path === '/#programs') return siteConfig.sections.showPrograms
-    if (item.path === '/#team') return configuredTeam.length > 0
+    if (item.path === '/#faq') return faqSectionVisible()
+    if (item.path === '/#team') return teamSectionVisible()
     return true
   })
 
@@ -110,16 +109,13 @@ const Header: React.FC = () => {
               className={`transition-all duration-300 ${isScrolled ? 'w-[110px]' : 'w-[150px]'}`}
             >
               <Link href="/" onClick={handleLinkClick} className="block">
-                <Image
-                  src={assetPath('/Images/logo.webp')}
-                  alt={siteConfig.name}
-                  width={686}
-                  height={234}
-                  priority
-                  className={`w-auto max-w-none object-contain transition-all duration-300 ${
-                    isScrolled ? 'h-7' : 'h-11'
-                  }`}
-                />
+                {/* No charity logo yet: show the name as text rather than
+                  another organization's logo (the template's logo.webp was FFC's). */}
+                <span
+                  className={`block font-semibold leading-tight transition-all duration-300 ${isScrolled ? 'text-xs' : 'text-sm'}`}
+                >
+                  {siteConfig.name}
+                </span>
               </Link>
             </div>
 

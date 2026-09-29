@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema'
 import { pageMetadata } from '@/lib/page-metadata'
-import { siteConfig } from '@/lib/site.config'
+import { PENDING_TEXT, isPending, siteConfig } from '@/lib/site.config'
 
 const PAGE_NAME = 'Donation Policy'
 const CANONICAL_PATH = '/donation-policy'
@@ -15,6 +15,13 @@ export const metadata: Metadata = pageMetadata({
 })
 
 export default function DonationPolicy() {
+  // Only a recognized 501(c)(3) (a non-empty taxStatusLabel, the footer's same
+  // legal claim) may call a donation tax-deductible.
+  const taxExempt = siteConfig.taxStatusLabel.trim() !== ''
+  // The EIN clause: the EIN itself, the pending placeholder while the charity
+  // has not supplied it, or nothing when it has none (see PendingField).
+  const ein = siteConfig.ein.trim()
+  const einClause = isPending('ein') ? ` (EIN: ${PENDING_TEXT})` : ein ? ` (EIN: ${ein})` : ''
   return (
     <div className="ffc-container py-16">
       <BreadcrumbSchema name={PAGE_NAME} path={CANONICAL_PATH} />
@@ -31,10 +38,19 @@ export default function DonationPolicy() {
           <h2 className="font-[var(--font-faustina)] text-[32px] leading-[40px] mt-8 mb-4">
             Tax Deductibility
           </h2>
-          <p>
-            {siteConfig.name} is a qualified 501(c)(3) nonprofit organization (EIN: {siteConfig.ein}
-            ). Donations are tax-deductible to the full extent allowed by law.
-          </p>
+          {taxExempt ? (
+            <p>
+              {siteConfig.name} is a qualified 501(c)(3) nonprofit organization{einClause}.
+              Donations are tax-deductible to the full extent allowed by law.
+            </p>
+          ) : (
+            <p>
+              {siteConfig.name}
+              {einClause} has not confirmed its own IRS recognition as a 501(c)(3) organization, so
+              donations may not be tax-deductible. Please consult a tax advisor before claiming a
+              deduction.
+            </p>
+          )}
 
           <h2 className="font-[var(--font-faustina)] text-[32px] leading-[40px] mt-8 mb-4">
             Use of Donations
@@ -54,8 +70,8 @@ export default function DonationPolicy() {
             Donation Processing
           </h2>
           <p>
-            Donations are processed securely. You will receive a receipt for tax purposes via email
-            after your donation is processed.
+            Donations are processed securely. You will receive a receipt via email after your
+            donation is processed.
           </p>
 
           <h2 className="font-[var(--font-faustina)] text-[32px] leading-[40px] mt-8 mb-4">

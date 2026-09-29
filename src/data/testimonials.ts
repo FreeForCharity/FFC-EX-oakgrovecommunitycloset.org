@@ -4,11 +4,6 @@
 // Each testimonial needs a heading and text; name, location, and locationUrl
 // are optional (location renders as a link when locationUrl is present).
 
-import testimonial1 from './testimonials/testimonial-1.json'
-import testimonial2 from './testimonials/testimonial-2.json'
-import testimonial3 from './testimonials/testimonial-3.json'
-import testimonial4 from './testimonials/testimonial-4.json'
-
 export type Testimonial = {
   heading: string
   text: string
@@ -17,7 +12,10 @@ export type Testimonial = {
   locationUrl?: string
 }
 
-export const testimonials: Testimonial[] = [testimonial1, testimonial2, testimonial3, testimonial4]
+// The template's testimonials were written about FFC (the template's supporting org), not this
+// charity, so none ship until the charity supplies its own (the section
+// self-hides while this list is empty).
+export const testimonials: Testimonial[] = []
 
 // Mirrors `configuredTeam`: `testimonials` is a fixed list of JSON imports, so
 // blanking the JSON files leaves its length unchanged. `configuredTestimonials`

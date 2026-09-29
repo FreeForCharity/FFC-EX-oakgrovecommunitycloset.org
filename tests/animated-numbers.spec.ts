@@ -11,6 +11,11 @@ import { testConfig } from './test.config'
  */
 
 test.describe('Results 2023 Animated Numbers', () => {
+  // The Results section self-hides until the charity supplies its own figures.
+  test.skip(
+    testConfig.animatedNumbers.statistics.length === 0,
+    'No results configured: the Results section self-hides'
+  )
   // Helper selector for ResultCard components - uses the distinctive border class
   // to identify the card containing a specific description
   const getResultCard = (page: import('@playwright/test').Page, description: string) =>

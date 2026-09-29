@@ -1,7 +1,8 @@
 import React, { CSSProperties, IframeHTMLAttributes } from 'react'
 import Image from 'next/image'
 import { assetPath } from '@/lib/assetPath'
-import { siteConfig } from '@/lib/site.config'
+import PendingNote from '@/components/ui/PendingNote'
+import { isPending, siteConfig } from '@/lib/site.config'
 
 interface ExtendedIframeProps extends IframeHTMLAttributes<HTMLIFrameElement> {
   allowpaymentrequest?: string
@@ -20,10 +21,14 @@ const Index = () => {
     height: '100%',
   }
 
+  // The charity's own donation form, when configured. Until then the section
+  // shows the pending placeholder (see PendingField) instead of an iframe
+  // with an empty src.
+  const embedUrl = siteConfig.integrations.zeffyDonationUrl.trim()
   const donationFormProps: ExtendedIframeProps = {
     title: 'Donation form powered by Zeffy',
     style: donationFormStyle,
-    src: siteConfig.integrations.zeffyDonationUrl,
+    src: embedUrl,
     loading: 'lazy',
     allowpaymentrequest: '',
     allowtransparency: 'true',
@@ -40,15 +45,14 @@ const Index = () => {
           {/* Left side: Description and pointing hands image */}
           <div className="flex flex-col w-full lg:w-[50%]">
             <p className="mb-[20px] font-[400] text-[25px] leading-[150%] tracking-[0] text-center lg:text-left lato-font">
-              By donating you help drive our mission and allow us to support more charities with our
-              Domain, Website, and other services.
+              By donating you help {siteConfig.name} carry out its mission.
             </p>
             {/* Pointing hands image - flipped horizontally to point toward the form on the right */}
             <div className="w-full flex justify-center lg:justify-end">
               <div className="relative w-full max-w-[400px] aspect-[578/386]">
                 <Image
                   src={assetPath('/Images/support-free-for-charity.webp')}
-                  alt="support free for charity image"
+                  alt=""
                   fill
                   className="object-contain scale-x-[-1]"
                   loading="lazy"
@@ -57,21 +61,28 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Right side: Zeffy Donation Form */}
-          <div className="w-full lg:w-[50%] flex justify-center">
-            <div
-              className="relative w-full max-w-[500px] h-[600px] bg-white rounded-lg shadow-lg overflow-hidden"
-              role="region"
-              aria-label="Donation form"
-            >
-              {/* CSS-only loading placeholder; the transparent Zeffy iframe
-                  paints over it once the form loads. Purely decorative. */}
+          {/* Right side: the charity's Zeffy donation form, or its placeholder */}
+          <div className="w-full lg:w-[50%] flex flex-col items-center gap-[16px]">
+            {embedUrl && (
               <div
-                className="absolute inset-0 animate-pulse bg-gray-100 pointer-events-none motion-reduce:animate-none"
-                aria-hidden="true"
-              />
-              <iframe {...donationFormProps}></iframe>
-            </div>
+                className="relative w-full max-w-[500px] h-[600px] bg-white rounded-lg shadow-lg overflow-hidden"
+                role="region"
+                aria-label="Donation form"
+              >
+                {/* CSS-only loading placeholder; the transparent Zeffy iframe
+                  paints over it once the form loads. Purely decorative. */}
+                <div
+                  className="absolute inset-0 animate-pulse bg-gray-100 pointer-events-none motion-reduce:animate-none"
+                  aria-hidden="true"
+                />
+                <iframe {...donationFormProps}></iframe>
+              </div>
+            )}
+            {/* The charity's donation page is still to come: say so, as plain
+                text (see PendingField). */}
+            {!embedUrl && isPending('donationUrl') && (
+              <PendingNote className="text-center text-[18px] text-gray-700 lato-font" />
+            )}
           </div>
         </div>
       </div>

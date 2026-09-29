@@ -13,18 +13,9 @@
 
 import { analyticsConfig } from '../src/lib/analytics.config'
 import { siteConfig } from '../src/lib/site.config'
+import { results } from '../src/data/results'
 
 export const testConfig = {
-  /**
-   * Mission Video Configuration
-   * Used in: tests/mission-video.spec.ts
-   */
-  missionVideo: {
-    ariaLabel: 'Free For Charity mission video',
-    playLabel: 'Play the Free For Charity mission video',
-    title: "Learn about Free For Charity's mission to help nonprofits reduce costs",
-  },
-
   /**
    * Application Form Configuration
    * Used in: tests/application-form.spec.ts
@@ -58,22 +49,9 @@ export const testConfig = {
    * Used in: tests/social-links.spec.ts
    */
   socialLinks: {
-    facebook: {
-      url: 'facebook.com/freeforcharity',
-      ariaLabel: 'Facebook',
-    },
-    twitter: {
-      url: 'x.com/freeforcharity1',
-      ariaLabel: 'X (Twitter)',
-    },
-    linkedin: {
-      url: 'linkedin.com/company/freeforcharity',
-      ariaLabel: 'LinkedIn',
-    },
-    github: {
-      url: 'github.com/FreeForCharity/FFC-IN-FFC_Single_Page_Template',
-      ariaLabel: 'GitHub',
-    },
+    // This charity's own links, sourced from siteConfig (the template's were
+    // Free For Charity's). Each renders as a footer icon labelled by `label`.
+    links: siteConfig.social.filter((s) => s.href.trim()),
   },
 
   /**
@@ -81,7 +59,9 @@ export const testConfig = {
    * Used in: tests/copyright.spec.ts
    */
   copyright: {
-    text: 'All Rights Are Reserved by Free For Charity a US 501c3 Non Profit',
+    text: `All Rights Are Reserved by ${siteConfig.name}${
+      siteConfig.taxStatusLabel.trim() ? ` ${siteConfig.taxStatusLabel.trim()}` : ''
+    }`,
     searchText: 'All Rights Are Reserved',
     // The permanent "Supported by" attribution (FFC footer standard) — sourced
     // from siteConfig.supportedBy, which is required and always rendered.
@@ -98,16 +78,11 @@ export const testConfig = {
    * Used in: tests/animated-numbers.spec.ts
    */
   animatedNumbers: {
-    sectionHeading: 'Results - 2023',
-    statistics: [
-      { description: 'Organizational partners', value: '221' },
-      { description: 'Total volunteers', value: '3' },
-      {
-        description: 'Organizations accessing technical assistance offerings',
-        value: '221',
-      },
-      { description: 'Volunteer hours contributed to the organization', value: '25' },
-    ],
+    // Sourced from src/data/results.ts. This charity ships no results yet (the
+    // template's were Free For Charity's own), so those specs skip while it
+    // is empty and the section self-hides.
+    sectionHeading: results.heading,
+    statistics: results.stats.map((s) => ({ description: s.label, value: s.value })),
   },
 
   /**
@@ -122,13 +97,12 @@ export const testConfig = {
   },
 
   /**
-   * Logo Configuration
-   * Used in: tests/logo.spec.ts
+   * Header branding
+   * Used in: tests/logo.spec.ts. The site has no charity logo yet, so the
+   * header shows the charity name as text (never Free For Charity's logo).
    */
   logo: {
-    headerAlt: 'Free For Charity',
-    heroAlt: 'Hero image',
-    navBarAriaLabel: 'Free For Charity home',
+    headerText: siteConfig.name,
   },
 
   /**

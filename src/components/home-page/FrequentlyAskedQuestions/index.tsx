@@ -1,8 +1,11 @@
 import React from 'react'
 import FrequentlyAskedQuestions from '@/components/ui/Frequently-Asked-Questions'
 import { faqs } from '@/data/faqs'
+import { faqSectionVisible } from '@/lib/section-visibility'
 
 const index = () => {
+  // Self-hide until the charity supplies FAQ entries of its own.
+  if (!faqSectionVisible()) return null
   return (
     <div id="faq" className="py-[50px]">
       <div className="w-[90%] mx-auto lg:px-[20px]">

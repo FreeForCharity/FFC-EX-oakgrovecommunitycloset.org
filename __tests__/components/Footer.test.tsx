@@ -2,10 +2,15 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe, toHaveNoViolations } from 'jest-axe'
 import Footer from '../../src/components/footer'
-import { siteConfig } from '../../src/lib/site.config'
+import { PENDING_TEXT, isPending, siteConfig, type PendingField } from '../../src/lib/site.config'
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations)
+
+// Tests of this site's own shipped values skip when that field is pending: a
+// pending field is empty and shows a placeholder instead (covered in
+// pending-placeholders.test.tsx, which varies the config itself).
+const itUnlessPending = (field: PendingField) => (isPending(field) ? it.skip : it)
 
 describe('Footer component', () => {
   it('should render the footer', () => {
@@ -42,13 +47,21 @@ describe('Footer component', () => {
     expect(screen.getByText(new RegExp(currentYear.toString()))).toBeInTheDocument()
   })
 
-  it('should have GuideStar profile link', () => {
+  itUnlessPending('guidestar')('should have GuideStar profile link', () => {
     render(<Footer />)
     const guidestarLink = screen.getByText(/GuideStar Profile/i)
     expect(guidestarLink).toBeInTheDocument()
   })
 
-  it('should have email contact link', () => {
+  it('shows a plain-text placeholder in each pending footer slot', () => {
+    render(<Footer />)
+    const footerPending = (siteConfig.pending ?? []).filter((f) => f !== 'team')
+    const notes = screen.queryAllByText(PENDING_TEXT)
+    expect(notes).toHaveLength(footerPending.length)
+    for (const note of notes) expect(note.closest('a')).toBeNull()
+  })
+
+  itUnlessPending('email')('should have email contact link', () => {
     render(<Footer />)
     // Look for email link
     const links = screen.getAllByRole('link')
@@ -56,12 +69,12 @@ describe('Footer component', () => {
     expect(emailLink).toBeDefined()
   })
 
-  it('renders the EIN from siteConfig', () => {
+  itUnlessPending('ein')('renders the EIN from siteConfig', () => {
     render(<Footer />)
     expect(screen.getByText(`${siteConfig.name} EIN: ${siteConfig.ein}`)).toBeInTheDocument()
   })
 
-  it('renders the phone number from siteConfig as a tel link', () => {
+  itUnlessPending('phone')('renders the phone number from siteConfig as a tel link', () => {
     render(<Footer />)
     const telLink = screen
       .getAllByRole('link')

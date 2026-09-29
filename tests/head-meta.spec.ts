@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { siteConfig } from '../src/lib/site.config'
 
 /**
  * Pins the metadata contract that #257 / #259 promised: every page in the
@@ -98,7 +99,13 @@ test.describe('static artifacts shipped to /out', () => {
     const response = await request.get('/.well-known/security.txt')
     expect(response.status()).toBe(200)
     const body = await response.text()
-    expect(body).toMatch(/^Contact:/im)
+    if (siteConfig.contactEmail.trim()) {
+      expect(body).toMatch(/^Contact:/im)
+    } else {
+      // No published contact email yet (pending): the Contact line is left out
+      // rather than naming another organization's address.
+      expect(body).not.toMatch(/^Contact:/im)
+    }
     const expiresMatch = body.match(/^Expires:\s*(.+)$/im)
     expect(expiresMatch).not.toBeNull()
     if (expiresMatch) {

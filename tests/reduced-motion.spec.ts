@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { results } from '../src/data/results'
 
 /**
  * WCAG 2.3.3 guardrail: when the user has prefers-reduced-motion: reduce,
@@ -15,6 +16,8 @@ import { test, expect } from '@playwright/test'
  */
 
 test.describe('prefers-reduced-motion', () => {
+  // The Results section self-hides until the charity supplies its own figures.
+  test.skip(results.stats.length === 0, 'No results configured: the Results section self-hides')
   test('Results-2023 stat numbers settle without a multi-frame animation', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')

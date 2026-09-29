@@ -27,8 +27,15 @@ describe('nav links respect section visibility', () => {
     showPrograms: siteConfig.sections.showPrograms,
     showEvents: siteConfig.sections.showEvents,
     sourcesConfigured: process.env.EVENTS_SOURCES_CONFIGURED,
+    pending: siteConfig.pending,
   }
+  // An empty team that is pending keeps its section (placeholder) and links;
+  // these cases cover the empty, NOT pending team.
+  beforeEach(() => {
+    siteConfig.pending = (original.pending ?? []).filter((f) => f !== 'team')
+  })
   afterEach(() => {
+    siteConfig.pending = original.pending
     siteConfig.sections.showPrograms = original.showPrograms
     siteConfig.sections.showEvents = original.showEvents
     if (original.sourcesConfigured === undefined) {
