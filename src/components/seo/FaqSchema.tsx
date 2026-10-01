@@ -32,6 +32,8 @@ export function buildFaqSchema(): Record<string, unknown> {
  * Server component — no client runtime cost.
  */
 export default function FaqSchema() {
+  // No FAQ entries -> no FAQPage (an empty mainEntity is invalid structured data).
+  if (faqs.length === 0) return null
   const schema = buildFaqSchema()
   // Escape '<' as its JSON unicode form so a FAQ answer that ever contains the
   // literal substring "</script>" cannot break out of this inline script tag

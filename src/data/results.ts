@@ -8,12 +8,10 @@ export type ResultStat = {
   label: string
 }
 
+// The template's figures were FFC's own 2023 results, so none
+// ship until the charity supplies its own (the section self-hides while
+// `stats` is empty).
 export const results: { heading: string; stats: ResultStat[] } = {
-  heading: 'Results - 2023',
-  stats: [
-    { value: '221', label: 'Organizational partners' },
-    { value: '3', label: 'Total volunteers' },
-    { value: '221', label: 'Organizations accessing technical assistance offerings' },
-    { value: '25', label: 'Volunteer hours contributed to the organization' },
-  ],
+  heading: 'Results',
+  stats: [],
 }

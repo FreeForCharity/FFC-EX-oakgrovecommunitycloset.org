@@ -15,16 +15,37 @@ jest.mock('swiper/css', () => ({}), { virtual: true })
 jest.mock('swiper/css/navigation', () => ({}), { virtual: true })
 
 import Testimonials from '@/components/home-page/Testimonials'
-import { testimonials } from '@/data/testimonials'
+import { configuredTestimonials } from '@/data/testimonials'
+
+// This charity ships no testimonials (the template's were about Free For
+// Charity), so the populated carousel runs against fixtures.
+const testimonials = [
+  { heading: 'Example Family', text: 'An example testimonial for the carousel.' },
+  { heading: 'Example Volunteer', text: 'Another example testimonial.' },
+]
+
+function renderWithFixture() {
+  configuredTestimonials.push(...testimonials)
+  try {
+    return render(<Testimonials />)
+  } finally {
+    configuredTestimonials.splice(configuredTestimonials.length - testimonials.length)
+  }
+}
 
 describe('Testimonials component', () => {
+  it('self-hides while the charity has supplied no testimonials (the shipped state)', () => {
+    const { container } = render(<Testimonials />)
+    expect(container).toBeEmptyDOMElement()
+  })
+
   it('renders the section heading', () => {
-    render(<Testimonials />)
+    renderWithFixture()
     expect(screen.getByRole('heading', { name: 'Testimonials' })).toBeInTheDocument()
   })
 
   it('renders the first testimonial heading and text', () => {
-    render(<Testimonials />)
+    renderWithFixture()
     // The heading text can also appear as the testimonial's location label, so
     // assert at least one match; the body text is unique.
     expect(screen.getAllByText(testimonials[0].heading).length).toBeGreaterThan(0)
@@ -32,7 +53,7 @@ describe('Testimonials component', () => {
   })
 
   it('exposes accessible prev/next controls', () => {
-    render(<Testimonials />)
+    renderWithFixture()
     expect(screen.getByRole('button', { name: /previous testimonial/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /next testimonial/i })).toBeInTheDocument()
   })

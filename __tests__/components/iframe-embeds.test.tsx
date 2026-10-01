@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import SupportFreeForCharity from '@/components/home-page/SupportFreeForCharity'
+import { siteConfig } from '@/lib/site.config'
 
 // Locks in the perceived-performance + accessibility behavior of the
 // third-party iframe embed: it lazy-loads and sits over a decorative,
@@ -9,6 +10,17 @@ import SupportFreeForCharity from '@/components/home-page/SupportFreeForCharity'
 // snapshot; see __tests__/components/Events.test.tsx.)
 describe('iframe embeds', () => {
   describe('Zeffy donation form', () => {
+    // The embed renders only for a configured donation form; this site's is
+    // still pending, so exercise the embed with an example URL.
+    const original = siteConfig.integrations.zeffyDonationUrl
+    beforeEach(() => {
+      siteConfig.integrations.zeffyDonationUrl =
+        'https://www.zeffy.com/en-US/embed/donation-form/example'
+    })
+    afterEach(() => {
+      siteConfig.integrations.zeffyDonationUrl = original
+    })
+
     it('lazy-loads the donation iframe', () => {
       render(<SupportFreeForCharity />)
       expect(screen.getByTitle('Donation form powered by Zeffy').getAttribute('loading')).toBe(
